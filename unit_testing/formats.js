@@ -16,7 +16,7 @@ function linkUrl() {
           return new Error(
             `${propName} of ${componentName} references a YouTube url that looks like a playlist. Perhaps use https://www.youtube.com/playlist?list=${
               playlistMatch[2]
-            } instead`
+            } instead`,
           );
         }
         return new Error(`${propName} of ${componentName} references a YouTube url instead of video_id`);
@@ -28,7 +28,7 @@ function linkUrl() {
         let dirFilename = urlToDirectoryIndexFilename(value);
         if (!fs.existsSync(mdFilename) && !fs.existsSync(dirFilename)) {
           return new Error(
-            `${propName} of ${componentName} references ${value} but the expected file ${mdFilename} or directory ${dirFilename} does not exist.`
+            `${propName} of ${componentName} references ${value} but the expected file ${mdFilename} or directory ${dirFilename} does not exist.`,
           );
         }
       } else {
@@ -68,10 +68,10 @@ const link = (module.exports.link = exact({
     PropTypes.shape(
       exact({
         name: PropTypes.string.isRequired,
-        url: PropTypes.string
-      })
+        url: PropTypes.string,
+      }),
     ),
-    PropTypes.string
+    PropTypes.string,
   ]),
   time: PropTypes.string,
   url: linkUrl(),
@@ -90,12 +90,12 @@ const variation = exact({
 
 const contribution = (module.exports.contribution = exact({
   ...link,
-  author: link.author.isRequired
+  author: link.author.isRequired,
 }));
 
 const customSection = (module.exports.customSection = exact({
   title: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape(link)).isRequired
+  items: PropTypes.arrayOf(PropTypes.shape(link)).isRequired,
 }));
 
 const videoBase = (module.exports.videoBase = exact({
@@ -125,10 +125,11 @@ const video = (module.exports.video = exact({
   repository: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([false])]),
   video_id: videoBase.video_id.isRequired,
   variations: PropTypes.oneOfType([PropTypes.shape(variation), PropTypes.arrayOf(PropTypes.shape(variation))]),
+  tags: PropTypes.arrayOf(PropTypes.string),
 }));
 
 const stream = (module.exports.stream = exact({
-  ...videoBase
+  ...videoBase,
 }));
 
 const series = (module.exports.series = exact({
@@ -145,11 +146,11 @@ const questionBase = exact({
   question: PropTypes.string.isRequired,
   answer: PropTypes.string.isRequired,
   section: PropTypes.string.isRequired,
-  links: PropTypes.arrayOf(PropTypes.shape(link))
+  links: PropTypes.arrayOf(PropTypes.shape(link)),
 });
 
 const sectionBase = exact({
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 });
 
 const faq = (module.exports.faq = exact({
